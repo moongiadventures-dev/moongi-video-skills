@@ -74,7 +74,6 @@ MIT License — 자유롭게 쓰고, 바꾸고, 재배포하세요.
 
 ## 🧑‍💻 MOONGI는 누구?
 
-- **Amazon Senior PM** (2026 종료) → **UC Berkeley MBA** → 현재 **MOONGI Studio** 전업 CEO
 - 1인 AI 스튜디오로 광고 영상 · 브랜드 · 숏폼 전부 혼자 만듭니다
 - Instagram [@moongi_adventures](https://instagram.com/moongi_adventures)에서 "직접 다 써본" AI 스킬·자동화를 공유합니다
 
@@ -84,11 +83,10 @@ MIT License — 자유롭게 쓰고, 바꾸고, 재배포하세요.
 
 ## 🔗 더 보기
 
+- **Portfolio:** [moongi-portfolio-v2.vercel.app](https://moongi-portfolio-v2.vercel.app)
 - IG: [@moongi_adventures](https://instagram.com/moongi_adventures)
 - Threads: [@moongi_adventures](https://threads.net/@moongi_adventures)
-- Studio: [moongi.studio](https://moongi.studio)
-- 수업: Class 101 — "AI로 수익화하는 1인 스튜디오"
-- 컨설팅 · 협업 문의: moongi.adventures@gmail.com
+- 문의: moongi.adventures@gmail.com
 
 ---
 
