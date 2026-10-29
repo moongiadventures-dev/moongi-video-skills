@@ -1,0 +1,25 @@
+{
+  "name": "motion-pack",
+  "version": "1.0.0",
+  "description": "**10 IBRA-original templates + access to ~115 total** across the HyperFrames ecosystem. All HTML/CSS/GSAP, all free, all renderable from Claude Code.",
+  "main": "render-scene.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/halicotampa-crypto/motion-pack.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/halicotampa-crypto/motion-pack/issues"
+  },
+  "homepage": "https://github.com/halicotampa-crypto/motion-pack#readme",
+  "dependencies": {
+    "gsap": "^3.15.0",
+    "puppeteer-core": "^23.11.1"
+  }
+}

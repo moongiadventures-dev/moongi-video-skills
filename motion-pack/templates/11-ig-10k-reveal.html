@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  html,body{margin:0;padding:0;background:transparent;overflow:hidden}
+  #stage{width:1080px;height:1920px;position:relative;
+    font-family:-apple-system,'Segoe UI',Roboto,'Malgun Gothic',sans-serif}
+  #card{position:absolute;top:180px;right:80px;display:flex;flex-direction:column;
+    align-items:center;gap:16px}
+  #icon{width:156px;height:156px;border-radius:40px;
+    background:radial-gradient(circle at 30% 112%,#feda75,#fa7e1e 28%,#d62976 58%,#962fbf 84%,#4f5bd5);
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 14px 44px rgba(214,41,118,.45)}
+  .lens{width:80px;height:80px;border:9px solid #fff;border-radius:24px;position:relative}
+  .lens:before{content:'';position:absolute;top:18px;left:18px;width:36px;height:36px;
+    border:9px solid #fff;border-radius:50%}
+  .lens:after{content:'';position:absolute;top:5px;right:5px;width:10px;height:10px;
+    background:#fff;border-radius:50%}
+  #num{font-size:104px;font-weight:800;color:#fff;letter-spacing:-3px;
+    text-shadow:0 6px 26px rgba(0,0,0,.38)}
+  #lbl{font-size:42px;font-weight:600;color:#fff;text-shadow:0 4px 16px rgba(0,0,0,.38)}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="card">
+    <div id="icon"><div class="lens"></div></div>
+    <div id="num">0</div>
+    <div id="lbl">팔로워</div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>
+  var num=document.getElementById('num');
+  var o={v:0};
+  var tl=gsap.timeline();
+  tl.from('#card',{scale:0,opacity:0,duration:.45,ease:'back.out(1.9)'});
+  tl.to(o,{v:10000,duration:1.1,ease:'power2.out',
+    onUpdate:function(){num.textContent=Math.round(o.v).toLocaleString()}},'-=.05');
+  tl.to('#card',{scale:1.1,duration:.13,yoyo:true,repeat:1,ease:'power1.inOut'});
+  tl.to('#card',{scale:1,duration:.15});
+</script>
+</body>
+</html>

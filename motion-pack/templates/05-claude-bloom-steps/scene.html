@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html><head>
+<meta charset="utf-8">
+<!--
+  05 — CLAUDE BLOOM + STEP CHIPS
+  Standalone solution-reveal / CTA overlay. 1080x1920 (9:16), 30fps, transparent bg.
+  Brand palette: ink #0A0808 · cream #EDD9BC · coral #D97757
+  Single GSAP timeline, deterministic seek render.
+  Render:  node render-scene.js templates/05-claude-bloom-steps/scene.html output/05.mp4 5.0
+-->
+<style>
+  /* Transparent background — overlay only */
+  html, body {
+    margin: 0; padding: 0;
+    width: 1080px; height: 1920px;
+    background: transparent;
+    overflow: hidden;
+    font-family: -apple-system, "Inter", "SF Pro Display", sans-serif;
+  }
+
+  /* === STAGE: vertically centered so it works full-frame or as an overlay === */
+  .bloom-stage {
+    position: absolute;
+    left: 0; right: 0;
+    top: 640px;                 /* upper-middle sweet spot for 9:16 */
+    display: flex; flex-direction: column; align-items: center;
+    z-index: 10;
+    pointer-events: none;
+  }
+
+  /* Starburst container */
+  .starburst-wrap {
+    position: relative;
+    width: 280px; height: 280px;
+    margin-bottom: 40px;
+    opacity: 0;
+  }
+  /* Soft radial glow behind the logo */
+  .starburst-rays {
+    position: absolute; inset: -110px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(217,119,87,0.70) 0%, rgba(217,119,87,0.22) 32%, transparent 66%);
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  /* Expanding bloom ring — one-shot flourish that sells the "bloom" */
+  .bloom-ring {
+    position: absolute; inset: 0;
+    border-radius: 46px;
+    border: 4px solid rgba(217,119,87,0.85);
+    opacity: 0;
+    transform: scale(1);
+  }
+  /* The Claude logo tile */
+  .starburst {
+    position: absolute; inset: 0;
+    z-index: 2;
+    border-radius: 46px;
+    overflow: hidden;
+    box-shadow: 0 0 80px rgba(217,119,87,0.55), 0 20px 40px rgba(0,0,0,0.5);
+  }
+  .starburst img { width: 100%; height: 100%; display: block; object-fit: cover; }
+
+  /* Wordmark */
+  .claude-text {
+    font-family: ui-monospace, "JetBrains Mono", Menlo, monospace;
+    font-size: 76px;
+    font-weight: 900;
+    color: #EDD9BC;
+    letter-spacing: -2px;
+    text-shadow: 0 8px 30px rgba(0,0,0,0.7), 0 0 40px rgba(217,119,87,0.45);
+    opacity: 0;
+  }
+  .claude-text .accent { color: #D97757; }
+
+  /* Step chips */
+  .steps {
+    display: flex;
+    gap: 22px;
+    margin-top: 46px;
+    opacity: 0;
+  }
+  .step-chip {
+    background: rgba(10,8,8,0.92);
+    border: 2px solid #D97757;
+    border-radius: 18px;
+    padding: 16px 26px;
+    font-family: ui-monospace, Menlo, monospace;
+    font-size: 34px;
+    font-weight: 900;
+    color: #EDD9BC;
+    letter-spacing: 1px;
+    box-shadow: 0 16px 34px rgba(0,0,0,0.5);
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  .step-chip .num { color: #D97757; margin-right: 12px; }
+</style>
+</head><body>
+
+<div class="bloom-stage">
+  <div class="starburst-wrap" id="starburstWrap">
+    <div class="starburst-rays" id="rays"></div>
+    <div class="bloom-ring" id="ring1"></div>
+    <div class="bloom-ring" id="ring2"></div>
+    <div class="starburst" id="starburst">
+      <img src="logos/claude.png" alt="Claude">
+    </div>
+  </div>
+
+  <div class="claude-text" id="claudeText">Claude <span class="accent">Code</span></div>
+
+  <div class="steps" id="steps">
+    <div class="step-chip"><span class="num">01</span><span>Prompt</span></div>
+    <div class="step-chip"><span class="num">02</span><span>Render</span></div>
+    <div class="step-chip"><span class="num">03</span><span>Ship</span></div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>
+  const tl = gsap.timeline();
+
+  // === 0.0-0.7s — BLOOM: rays expand + starburst pops in ===
+  tl.fromTo("#rays",
+    { opacity: 0, scale: 0.4 },
+    { opacity: 1, scale: 1.4, duration: 0.6, ease: "power2.out" },
+    0.15
+  );
+  tl.fromTo("#starburstWrap",
+    { opacity: 0, scale: 0.3, rotation: -45 },
+    { opacity: 1, scale: 1, rotation: 0, duration: 0.6, ease: "back.out(1.8)" },
+    0.15
+  );
+
+  // Expanding bloom rings — two staggered one-shot pulses
+  tl.fromTo("#ring1",
+    { opacity: 0.9, scale: 1 },
+    { opacity: 0, scale: 1.9, duration: 0.7, ease: "power2.out" },
+    0.30
+  );
+  tl.fromTo("#ring2",
+    { opacity: 0.7, scale: 1 },
+    { opacity: 0, scale: 2.3, duration: 0.9, ease: "power2.out" },
+    0.50
+  );
+
+  // === 0.6-1.1s — wordmark fades up ===
+  tl.fromTo("#claudeText",
+    { opacity: 0, y: 26 },
+    { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" },
+    0.60
+  );
+
+  // Rays settle into a gentle deterministic pulse
+  tl.to("#rays", { scale: 1.2, opacity: 0.72, duration: 0.8, yoyo: true, repeat: -1, ease: "sine.inOut" }, 0.9);
+
+  // === 1.15-2.1s — step chips slide in, staggered ===
+  tl.to("#steps", { opacity: 1, duration: 0.1 }, 1.15);
+  tl.to(".step-chip", {
+    opacity: 1, y: 0, duration: 0.5,
+    stagger: 0.20,
+    ease: "back.out(1.5)"
+  }, 1.20);
+
+  // === Subtle logo breathe while holding final state ===
+  tl.to("#starburst", { scale: 1.03, duration: 1.0, yoyo: true, repeat: -1, ease: "sine.inOut", transformOrigin: "center center" }, 2.2);
+
+  // Hold final state to end (~5.0s)
+  tl.to({}, { duration: 2.6 }, 2.4);
+</script>
+</body></html>
