@@ -31,7 +31,7 @@
 
 ```bash
 # 1. 레포 clone
-git clone https://github.com/<your-handle>/moongi-video-skills.git
+git clone https://github.com/moongiadventures-dev/moongi-video-skills.git
 cd moongi-video-skills
 
 # 2. 쓰고 싶은 스킬을 ~/.claude/skills/에 심볼릭 링크
